@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from django.views import generic
+from django.shortcuts import render
+from django.contrib import messages
 from .models import About
+from .forms import CollaborateRequestForm
 
 def about_detail(request):
     """
@@ -16,10 +17,23 @@ def about_detail(request):
     :template:`about/about.html`
     """
 
+    if request.method == "POST":
+        collab_requests = CollaborateRequestForm(data=request.POST)
+        if collab_requests.is_valid():
+            collab_requests.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                "Collaboration request received! I endeavour to respond within 2 working days."
+            )
+
+    collab_requests = CollaborateRequestForm()
     about = About.objects.all().order_by("-created_on").first()
 
     return render(
         request,
         "about/about.html",
-        {"about": about},
+        {
+            "about": about,
+            "collab_requests": collab_requests, 
+        },
     )
