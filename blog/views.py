@@ -18,7 +18,12 @@ def post_detail(request, slug):
 
         ``post``
             An instance of :model:`blog.Post`.
-
+        ``comments``
+            All approved comments for the post
+        ``comment_count``
+            The number of approved comments for the post
+        ``comment_form``
+            An instance of :form:`blog.CommentForm`.
         **Template:**
 
         :template:`blog/post_detail.html`
@@ -56,12 +61,21 @@ def post_detail(request, slug):
 
 def comment_edit(request, slug, comment_id):
     """
-    view to edit comments
+    Display an individual comment for editing
+
+    **Context**
+
+    ``post``
+        An instance of :model:`blog.Post`.
+    ``comment``
+        A single comment related to the post
+    ``comment_form``
+        An instance of :form:`blog.CommentForm`.
     """
     if request.method == "POST":
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
-        comment = get_object_or_404(Comment, pk=comment_id)
+        comment = get_object_or_404(Comment, pk=comment_id) # reassigning later????
         comment_form = CommentForm(data=request.POST, instance=comment)
 
         if comment_form.is_valid() and comment.author == request.user:
@@ -77,7 +91,12 @@ def comment_edit(request, slug, comment_id):
     
 def comment_delete(request, slug, comment_id):
     """
-    view to delete comment
+    Delete an individual comment
+
+    **Context**
+
+    ``comment``
+        A single comment related to the post
     """
     # queryset = Post.objects.filter(status=1)
     # post = get_object_or_404(queryset, slug=slug)

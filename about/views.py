@@ -5,13 +5,15 @@ from .forms import CollaborateRequestForm
 
 def about_detail(request):
     """
-    Display an individual :model:`about.About`.
-
+    Renders the most recent information on the website
+    author and allows user collab requests
+    Displays an individual isntance of :model:`about.About`.
     **Context**
 
     ``about``
-        An instance of :model:`about.About`.
-
+        The most recent instance of :model:`about.About`.
+    ``collab_requests``
+        An instance of :model:`about.CollaborateRequest`.
     **Template:**
 
     :template:`about/about.html`

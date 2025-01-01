@@ -2,6 +2,10 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 
 class About(models.Model):
+    """
+    Stores a single about me text.
+    """
+    
     title = models.CharField(max_length=200)
     profile_image = CloudinaryField('image', default='placeholder')
     description = models.TextField()
@@ -11,6 +15,9 @@ class About(models.Model):
         return self.title
     
 class CollaborateRequest(models.Model):
+    """
+    Stores a single collaboration request.
+    """
     name = models.CharField(max_length=200)
     email = models.EmailField()
     message = models.TextField()
